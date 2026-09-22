@@ -1,0 +1,21 @@
+<!doctype html><html><body style="background:#152020;color:white"><div style="position:relative"><canvas id="scene" style="width:640px;height:480px"></canvas></div><pre id="result">Running scene display checks…</pre><script type="module">
+import {ProjectionScene} from '../scene.js';
+import {projectorBasis} from '../scene-math.js';
+const canvas=document.querySelector('canvas'),scene=new ProjectionScene(canvas);
+const light={...projectorBasis(180,0),position:[0,0,0],gain:1};
+scene.upload(new Float32Array(32*32).fill(5).buffer,32,{detector_z_mm:1000,detector_size_mm:600});
+scene.fit={center:[0,0,0],radius:1};scene.set({yaw:0,pitch:0,zoom:2,sceneLights:[light],ambient:0,glare:false,sourceOverlay:false});
+const read=()=>{const gl=scene.gl,d=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,d);return d;};
+const brighter=(a,b)=>{let count=0;for(let i=0;i<a.length;i+=4)if(b[i]>a[i]+2)count++;return count;};
+const dark=read();scene.set({glare:true});const glow=read();
+scene.set({sceneLights:[{...light,...projectorBasis(130,0)}]});const offAxis=read();scene.set({sceneLights:[light]});
+scene.set({sceneLights:[{...light,gain:0}]});const muted=read();
+scene.set({glare:false,ambient:1});const ambient=read();
+scene.set({flatView:true,ambient:0});const flat0=read();scene.set({ambient:10,glare:true});const flat10=read();
+const hidden=[...document.querySelectorAll('.projector-marker')].every(el=>el.hidden)&&document.querySelector('.source-gizmo').style.display==='none';
+const vertices=new Float32Array([-1,-1,-1,0,0,-1,1,-1,-1,0,0,-1,1,1,-1,0,0,-1,-1,-1,-1,0,0,-1,1,1,-1,0,0,-1,-1,1,-1,0,0,-1]);
+scene.model={vertices,count:6,bounds:{min:[-1,-1,-1],max:[1,1,-1]}};scene.set({sceneMode:'model',flatView:false,ambient:0,sceneLights:[light],glare:false});const blocked0=read();scene.set({glare:true});const blocked1=read();
+const result={glarePixels:brighter(dark,glow),offAxisPixels:brighter(dark,offAxis),mutedPixels:brighter(dark,muted),ambientPixels:brighter(muted,ambient),patternUnchanged:flat0.every((v,i)=>v===flat10[i]),overlayHidden:hidden,blockedGlarePixels:brighter(blocked0,blocked1),glError:scene.gl.getError()};
+result.passed=result.glarePixels>100&&result.offAxisPixels>100&&result.mutedPixels===0&&result.ambientPixels>100&&result.patternUnchanged&&result.overlayHidden&&result.blockedGlarePixels===0&&result.glError===0;
+document.querySelector('#result').textContent=JSON.stringify(result);
+</script></body></html>

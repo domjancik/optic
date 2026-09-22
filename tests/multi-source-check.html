@@ -1,0 +1,12 @@
+<!doctype html><html><body style="background:#152020;color:white"><canvas id="scene" style="width:640px;height:480px"></canvas><pre id="result">Running GPU validation…</pre><script type="module">
+import {ProjectionScene} from '../scene.js';
+import {projectorBasis} from '../scene-math.js';
+const canvas=document.querySelector('canvas'),scene=new ProjectionScene(canvas),basis={...projectorBasis(0,0),position:[0,0,0],gain:1};
+const cfg={detector_z_mm:1000,detector_size_mm:600};scene.upload(new Float32Array(32*32).fill(.3).buffer,32,cfg);
+const read=()=>{const gl=scene.gl,data=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,data);return data;};
+scene.set({sceneLights:[basis]});const one=read();
+scene.set({sceneLights:[basis,{...basis,gain:1}]});const two=read();
+scene.set({sceneLights:[basis,{...basis,gain:0}]});const muted=read();
+let brighter=0,equal=true;for(let i=0;i<one.length;i+=4){if(two[i]>one[i])brighter++;if(muted[i]!==one[i])equal=false;}
+const error=scene.gl.getError();document.querySelector('#result').textContent=JSON.stringify({passed:brighter>100&&equal&&error===0,brighterPixels:brighter,mutedMatches:equal,glError:error});
+</script></body></html>

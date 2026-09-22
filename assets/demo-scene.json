@@ -1,0 +1,35 @@
+{
+  "source": "Generic cube and floor",
+  "units": "m",
+  "up": "Z",
+  "positions_file": "demo-positions.bin.gz",
+  "normals_file": "demo-normals.bin.gz",
+  "vertex_count": 36,
+  "triangle_count": 12,
+  "bounds": {
+    "min": [
+      -2,
+      -2,
+      0
+    ],
+    "max": [
+      2,
+      2,
+      1
+    ]
+  },
+  "lights": {
+    "recommended_projector": {
+      "position": [
+        0,
+        -2,
+        1
+      ],
+      "target": [
+        0,
+        0,
+        0.5
+      ]
+    }
+  }
+}

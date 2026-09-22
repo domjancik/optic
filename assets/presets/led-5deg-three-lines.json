@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "name": "LED 5° - three lines - 24 mm throw",
+  "layers": [
+    {
+      "id": "led-5deg-three-lines",
+      "type": "optic",
+      "name": "Parallel-line focus",
+      "enabled": true,
+      "gapBeforeMm": 6,
+      "kind": "cylindrical",
+      "radius_mm": 13,
+      "thickness_mm": 2,
+      "pitch_mm": 6,
+      "depth_mm": 0.5,
+      "count": 3,
+      "angle_deg": 0,
+      "x_mm": 0,
+      "y_mm": 0,
+      "rotation": 0,
+      "tilt": 0,
+      "modulation": {
+        "rotation": {
+          "enabled": false,
+          "waveform": "sine",
+          "base": 0,
+          "depth": 20,
+          "rate": 0.25,
+          "phase": 0
+        },
+        "tilt": {
+          "enabled": false,
+          "waveform": "sine",
+          "base": 0,
+          "depth": 2,
+          "rate": 0.25,
+          "phase": 0
+        },
+        "x": {
+          "enabled": false,
+          "waveform": "sine",
+          "base": 0,
+          "depth": 2,
+          "rate": 0.25,
+          "phase": 0
+        },
+        "y": {
+          "enabled": false,
+          "waveform": "sine",
+          "base": 0,
+          "depth": 2,
+          "rate": 0.25,
+          "phase": 0
+        },
+        "radius": {
+          "enabled": false,
+          "waveform": "sine",
+          "base": 13,
+          "depth": 1,
+          "rate": 0.25,
+          "phase": 0
+        }
+      }
+    }
+  ],
+  "materials": {
+    "n550": 1.49,
+    "dispersion": 0.004,
+    "absorption": 0
+  },
+  "instructions": "Setup: LED full cone 5°, pupil diameter 18 mm; detector throw 24 mm, field 30 mm. Pattern view, -6 EV at 1 W. Near-field only. Source and detector settings are not changed by loading."
+}

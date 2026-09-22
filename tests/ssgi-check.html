@@ -1,0 +1,12 @@
+<!doctype html><html><body><div style="position:relative"><canvas style="width:480px;height:360px"></canvas></div><pre id="result">Checking…</pre><script type="module">
+import {ProjectionScene} from '../scene.js';
+const c=document.querySelector('canvas'),s=new ProjectionScene(c);s.set({ambient:0,glare:false,sourceOverlay:false,exposure:.2});
+const data=new Float32Array(32*32);for(let y=9;y<23;y++)for(let x=9;x<23;x++)data[y*32+x]=5;
+s.upload(data.buffer,32,{detector_z_mm:1000,detector_size_mm:600});s.fitView();
+const g=s.gl,read=()=>{const d=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,d);return d;};
+const off=read();s.set({ssgi:true,ssgiIntensity:1,ssgiRadius:1});const on=read();s.draw();const stable=read().every((v,i)=>v===on[i]);s.set({ssgiSoftness:0});const sharp=read();s.set({ssgiSoftness:4});const soft=read();const smoothingChanged=soft.some((v,i)=>v!==sharp[i]);let brighter=0,darker=0,backgroundChanged=0;for(let i=0;i<on.length;i+=4){if(on[i]>off[i]+2)brighter++;if(on[i]<off[i]-2)darker++;if(off[i]===6&&off[i+1]===8&&off[i+2]===9&&on[i]!==off[i])backgroundChanged++;}
+s.set({ssgiIntensity:0});const zero=read();const zeroDifference=off.reduce((m,v,i)=>Math.max(m,Math.abs(v-zero[i])),0);
+s.set({flatView:true,ssgi:false});const flat=read();s.set({ssgi:true,ssgiIntensity:2});const same=read().every((v,i)=>v===flat[i]);s.set({flatView:false,ssgi:false});const restored=read().every((v,i)=>v===off[i]);
+s.set({hasMap:false,ssgi:false});const unlit=read();s.set({ssgi:true});const noInventedLight=read().every((v,i)=>v===unlit[i]);
+const error=g.getError();document.querySelector('#result').textContent=JSON.stringify({passed:stable&&smoothingChanged&&brighter>50&&darker===0&&backgroundChanged===0&&zeroDifference<=1&&same&&restored&&noInventedLight&&error===0,stable,smoothingChanged,brighter,darker,backgroundChanged,zeroDifference,patternUnchanged:same,restored,noInventedLight,error});
+</script></body></html>

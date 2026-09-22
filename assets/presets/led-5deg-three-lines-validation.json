@@ -1,0 +1,84 @@
+{
+  "config": {
+    "rays": 500000,
+    "seed": 42,
+    "source_model": "led",
+    "source_radius_mm": 9,
+    "divergence_deg": 5,
+    "optical_power_w": 1,
+    "detector_z_mm": 24,
+    "detector_size_mm": 30,
+    "resolution": 512,
+    "n550": 1.49,
+    "dispersion": 0.004,
+    "absorption_per_mm": 0,
+    "max_bounces": 24,
+    "wavelengths_nm": [
+      450,
+      520,
+      638,
+      400,
+      437.5,
+      475,
+      512.5,
+      550,
+      587.5,
+      625,
+      662.5,
+      700
+    ],
+    "spectral_weights": [
+      1,
+      1,
+      1,
+      0.1111111111111111,
+      0.1111111111111111,
+      0.1111111111111111,
+      0.1111111111111111,
+      0.1111111111111111,
+      0.1111111111111111,
+      0.1111111111111111,
+      0.1111111111111111,
+      0.1111111111111111
+    ],
+    "optics": [
+      {
+        "kind": "cylindrical",
+        "radius_mm": 13,
+        "z_mm": 6,
+        "thickness_mm": 2,
+        "pitch_mm": 6,
+        "depth_mm": 0.5,
+        "angle_deg": 0,
+        "tilt_deg": 0
+      }
+    ],
+    "color_preview": true
+  },
+  "metrics": {
+    "backend": "cuda",
+    "fallback": null,
+    "rays": 500000,
+    "triangles": 1660,
+    "trace_seconds": 1.708985900040716,
+    "total_seconds": 2.1425558000337332,
+    "fractions": {
+      "detected": 0.9245359999999998,
+      "outside_detector": 0.0006759999999999997,
+      "escaped": 0.074788,
+      "unresolved": 0,
+      "masked": 0,
+      "absorbed": 0
+    },
+    "detected_fraction": 0.9245359999999998,
+    "centroid_mm": [
+      -0.00042853508719883427,
+      0.006410410009779815
+    ],
+    "input_power_w": 1.0000000000000004
+  },
+  "units": "W/m^2",
+  "npy_origin": "lower left",
+  "preview_scale_w_m2": 23301.689453125,
+  "assumptions": "Effective uniform pupil/cone; unpolarized geometric optics; common material; no measured LED/lens prescription"
+}
