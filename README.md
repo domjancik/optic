@@ -2,6 +2,40 @@
 
 A local optical-pattern simulator and interactive projection studio. Build stacks of refractive surfaces and masks, animate them, and preview their light on a detector or a 3D receiver.
 
+## Screenshots
+
+Actual captures from the app at 1600 × 1000. The line-focus example uses a geometric Gaussian laser and a lenticular sheet; visible grain comes from finite ray sampling.
+
+### Pattern and optical-layer controls
+
+Computed detector irradiance alongside the surface height map, layer stack and modulation controls.
+
+![Pattern view with parallel lines and lenticular surface controls](output/playwright/pattern.png)
+
+### Scene and projector controls
+
+The same optical map projected onto the bench, with source placement, brightness and viewport controls.
+
+![Scene view with the line pattern projected onto a wall](output/playwright/scene.png)
+
+### Optical path
+
+Computed distance slices show how the light evolves between the source and detector.
+
+![Optical path view with eight additive irradiance slices](output/playwright/optical-path.png)
+
+### Simulation settings and cache
+
+Sampling, detector dimensions, material properties, playback RAM and disk-cache status.
+
+![Simulation settings panel](output/playwright/settings.png)
+
+### Optics presets
+
+Save and load optical stacks independently of the source and scene settings.
+
+![Optics presets panel with the bundled LED three-line preset](output/playwright/presets.png)
+
 ## Run
 
 Requires Python with NumPy, SciPy, Numba and Pillow, plus a browser supporting WebGL2.
